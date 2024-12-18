@@ -9,4 +9,8 @@ export class Products {
             this.description = _description,
             this.type = _type
     }
+    // calculateDiscount = () => {
+
+    //     return (this.price*0.05)
+    // }
 }

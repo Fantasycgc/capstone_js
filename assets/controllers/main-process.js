@@ -1,9 +1,9 @@
 import { Products } from "../models/Products.js";
 import { QLProductServices } from "../services/products.services.js";
 
-const showProd = (data) => {
+const showProd = (tabID, data) => {
 
-  console.log("data: ", data);
+  // console.log("data: ", data);
   let htmlContent = ''
   htmlContent += `<div class="product__slider owl-carousel owl-loaded owl-drag">`
   htmlContent += `<div class="owl-stage-outer" >`
@@ -18,14 +18,13 @@ const showProd = (data) => {
                           <img
                             src=${item.img}
                             alt="product"
-                       
+                            id="product-img"
                            
                           />
                           <img
                             class="second-img"
                             src=${item.img}
                             alt="product"
-                       
                             
                           />
                         </a>
@@ -81,10 +80,10 @@ const showProd = (data) => {
                             </li>
                           </ul>
                         </div>
-                        <span class="price">${item.price}</span>
+                        <span class="price">${Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(item.price)}</span>
                       </div>
                       <div class="product__add-btn">
-                        <button type="button">Add to Cart</button>
+                        <button type="button" id="btnAddCart" onclick='getMessage()'>Add to Cart</button>
                       </div>
                     </div>
                     </div>
@@ -94,29 +93,28 @@ const showProd = (data) => {
   htmlContent += ` </div>`
   htmlContent += ` </div>`
   htmlContent += ` </div>`
-  document.getElementById('new').innerHTML = htmlContent
+  document.getElementById(tabID).innerHTML = htmlContent
 }
-const getProductList = async () => {
+let searchTypeFilter = []
+const getProductList = async (brand_value) => {
+
   try {
 
-    const result = await QLProductServices.getProductList()
-    console.log("result: ", result.data);
+    const result = await QLProductServices.getProductBrand(brand_value)
 
 
-    showProd(result.data.data)
+    showProd('samsung', result.data.data)
   } catch (error) {
     console.log("error: ", error);
 
   }
 }
-getProductList()
+// getProductList('iphone')
+
 
 const showSale = (data) => {
-
   let htmlContent = ''
-  // htmlContent += `<div class="sale__slider owl-carousel owl-loaded owl-drag">`
-  htmlContent += `<div class="owl-stage-outer" >`
-  htmlContent += `<div class="owl-stage" style="transform: translate3d(-1506px, 0px, 0px); transition: all; width: 4895px;">`
+
   data.forEach((item) => {
 
     htmlContent += `
@@ -161,26 +159,47 @@ const showSale = (data) => {
                           </li>
                         </ul>
                       </div>
-                      <span class="new new-2">${item.price}</span>
-                      <span class="price-old"> <del>$800.00</del> </span>
+                      <span class="new new-2">${Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(item.price)}</span>
+                      <span class="price-old"> <del>${Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(item.price + (item.price * 0.1))}</del> </span>
                     </div>
                   </div>
-                  
+
                 </div>
+
+              
+
+
                 </div>
-                 
+
         `
   })
-  // htmlContent += ` </div>`
 
-  htmlContent += ` </div>`
-
-
-
-  htmlContent += ` </div>`
-  htmlContent += `<div class="owl-nav"><div class="owl-prev"><button><i class="fal fa-angle-left"></i></button></div><div class="owl-next"><button><i class="fal fa-angle-right"></i></button></div></div>`
   document.getElementById('showSale').innerHTML = htmlContent
+  // }
+  $('#showSale').owlCarousel('destroy'); // Xóa carousel cũ
+  $('#showSale').owlCarousel({
+    loop: true,
+    margin: 20,
+    autoplay: false,
+    autoplayTimeout: 3000,
+    smartSpeed: 500,
+    items: 6,
+    navText: ['<button><i class="fal fa-angle-left"></i></button>', '<button><i class="fal fa-angle-right"></i></button>'],
+    nav: true,
+    dots: false,
+    responsive: {
+      0: { items: 1 },
+      576: { items: 1 },
+      767: { items: 2 },
+      992: { items: 2 },
+      1200: { items: 3 },
+      1600: { items: 4 }
+    }
+  });
 }
+
+
+
 const getShowSale = async () => {
   try {
 
@@ -193,4 +212,21 @@ const getShowSale = async () => {
 
   }
 }
-getShowSale()
+
+
+
+document.getElementById('iphone-tab').onclick = async () => {
+  const resultType = await QLProductServices.getProductBrand('phone')
+
+  showProd('iphone', resultType.data.data)
+}
+
+
+const formLoad = () => {
+  getProductList('Samsung')
+  getShowSale()
+}
+formLoad()
+
+
+
