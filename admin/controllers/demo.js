@@ -125,11 +125,11 @@ const layThongTinSP = () => {
     sp.id || null,
     sp.name,
     sp.price,
-    sp.screen || null,
-    sp.blackcamera || null,
-    sp.frontcamera || null,
+    sp.screen,
+    sp.blackcamera,
+    sp.frontcamera,
     sp.img,
-    sp.description || null,
+    sp.description,
     sp.type
   );
 };
