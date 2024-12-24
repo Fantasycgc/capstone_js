@@ -1,6 +1,10 @@
 import { Products } from "../models/Products.js";
+import { Carts } from "../models/Carts.js";
 import { QLProductServices } from "../services/products.services.js";
+import { QLCartServices } from "../services/cart.services.js";
 
+
+const carts = new Carts()
 const showProd = (tabID, data) => {
 
   // console.log("data: ", data);
@@ -83,7 +87,7 @@ const showProd = (tabID, data) => {
                         <span class="price">${Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(item.price)}</span>
                       </div>
                       <div class="product__add-btn">
-                        <button type="button" id="btnAddCart" onclick='getMessage()'>Add to Cart</button>
+                        <button type="button" id="btnAddCart" onclick="addCart('${item.id}')">Add to Cart</button>
                       </div>
                     </div>
                     </div>
@@ -222,9 +226,106 @@ document.getElementById('iphone-tab').onclick = async () => {
 }
 
 
+const getDataCart = async () => {
+
+  try {
+
+    const result = await QLCartServices.getCartList()
+    console.log("result: ", result);
+    // console.log("result 1: ", result.data.data);
+    reloadCart(result.data.data)
+
+
+
+  } catch (error) {
+    console.log("error: ", error);
+
+  }
+}
+
+
+const reloadCart = (data) => {
+
+
+  let htmlContentCartCount = ''
+  let htmlContentCartAMT = ''
+  let htmlContentCartTitle = ''
+  let htmlContentCartDetail = ''
+  let htmlContentCartSubAMT = ''
+
+  htmlContentCartCount += `
+     <span class="cart__total-item">${data.totalRows}</span>
+     `
+  document.getElementById('cartCount').innerHTML = htmlContentCartCount
+  htmlContentCartAMT += `
+           <span class="cart__my">My Cart:</span>
+                        <span class="cart__total-price" >${Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(data.totalAMT)}</span>                
+    `
+  document.getElementById('cartAMT').innerHTML = htmlContentCartAMT
+  htmlContentCartTitle += `
+        <h4>My Cart</h4>
+        <span>(${data.totalRows} Item in Cart)</span>
+
+
+  `
+  document.getElementById('cartTitle').innerHTML = htmlContentCartTitle
+  htmlContentCartSubAMT += `
+
+    <span class="cart__my">My Cart:</span>
+                 <span class="cart__total-price" >${Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(data.totalAMT)}</span>                      
+  `
+  document.getElementById('cartSubAMT').innerHTML = htmlContentCartSubAMT
+
+  data.cartDetails.forEach((item) => {
+
+
+    htmlContentCartDetail += `
+  <div
+                            class="cart__item d-flex justify-content-between align-items-center" 
+                          >
+                            <div class="cart__inner d-flex">
+                              <div class="cart__thumb">
+                                <a href="product/1">
+                                  <img
+                                    src= ${item.img}
+                                    alt=""
+                                  />
+                                </a>
+                              </div>
+                              <div class="cart__details">
+                                <h6>
+                                  <a href="#">
+                                  ${item.name}
+                                  </a>
+                                </h6>
+                                <div class="cart__price">
+                                  <span>${Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(item.totalAMT)}</span>
+                                </div>
+                              </div>
+                            </div>
+                         
+                          </div>
+    `
+
+  })
+  document.getElementById('cartDetail').innerHTML = htmlContentCartDetail
+
+}
+window.addCart = async (product_id) => {
+
+  try {
+    await QLCartServices.addCart(product_id)
+    getDataCart()
+  } catch (error) {
+    console.log("error: ", error);
+
+  }
+
+}
 const formLoad = () => {
   getProductList('Samsung')
   getShowSale()
+  getDataCart()
 }
 formLoad()
 

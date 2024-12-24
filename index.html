@@ -146,12 +146,16 @@
                   <div
                     class="cart__mini-wrapper d-none d-md-flex f-right p-relative"
                   >
-                    <a href="javascript:void(0);" class="cart__toggle">
-                      <span class="cart__total-item">01</span>
+                    <a
+                      href="javascript:void(0);"
+                      class="cart__toggle"
+                      id="cartCount"
+                    >
+                      <!-- <span class="cart__total-item">01</span> -->
                     </a>
-                    <span class="cart__content">
-                      <span class="cart__my">My Cart:</span>
-                      <span class="cart__total-price">$ 255.00</span>
+                    <span class="cart__content" id="cartAMT">
+                      <!-- <span class="cart__my">My Cart:</span>
+                      <span class="cart__total-price" >$ 255.00</span> -->
                     </span>
                     <div class="cart__mini">
                       <div class="cart__close">
@@ -161,16 +165,16 @@
                       </div>
                       <ul>
                         <li>
-                          <div class="cart__title">
-                            <h4>My Cart</h4>
-                            <span>(1 Item in Cart)</span>
+                          <div class="cart__title" id="cartTitle">
+                            <!-- <h4>My Cart</h4>
+                            <span>(1 Item in Cart)</span> -->
                           </div>
                         </li>
-                        <li>
-                          <div
-                            class="cart__item d-flex justify-content-between align-items-center"
+                        <li id="cartDetail">
+                          <!--  <div
+                            class="cart__item d-flex justify-content-between align-items-center" 
                           >
-                            <div class="cart__inner d-flex">
+                        <div class="cart__inner d-flex">
                               <div class="cart__thumb">
                                 <a href="product-details.html">
                                   <img
@@ -193,14 +197,15 @@
                             <div class="cart__del">
                               <a href="#"><i class="fal fa-trash-alt"></i></a>
                             </div>
-                          </div>
+                          </div> -->
                         </li>
                         <li>
                           <div
                             class="cart__sub d-flex justify-content-between align-items-center"
+                            id="cartSubAMT"
                           >
-                            <h6>Car Subtotal</h6>
-                            <span class="cart__sub-total">$255.00</span>
+                            <!-- <h6>Car Subtotal</h6>
+                            <span class="cart__sub-total">$255.00</span> -->
                           </div>
                         </li>
                         <li>
@@ -1231,7 +1236,7 @@
                   role="tabpanel"
                   aria-labelledby="iphone-tab"
                 >
-                  <div class="product__slider owl-carousel">
+                  <!-- <div class="product__slider owl-carousel">
                     <div class="product__item product__item-2 white-bg">
                       <div class="product__thumb p-relative">
                         <a href="product-details.html" class="w-img">
@@ -1729,7 +1734,7 @@
                         <button type="button">Add to Cart</button>
                       </div>
                     </div>
-                  </div>
+                  </div> -->
                 </div>
                 <div
                   class="tab-pane fade"
