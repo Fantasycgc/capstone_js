@@ -1,6 +1,6 @@
 export class Carts {
-    constructor(_product_id, _quantity) {
-        this.product_id = _product_id,
+    constructor(_id, _quantity) {
+        this.id = _id,
             this.quantity = _quantity
 
     }

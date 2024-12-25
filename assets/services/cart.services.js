@@ -1,5 +1,5 @@
-// const baseUrl = 'https://serverapi-mu.vercel.app/api'
-const baseUrl = 'http://localhost:3000/api'
+const baseUrl = 'https://serverapi-mu.vercel.app/api'
+// const baseUrl = 'http://localhost:3000/api'
 
 
 export const QLCartServices = {
@@ -23,5 +23,17 @@ export const QLCartServices = {
         })
 
     },
+    deleteCart: (cartId) => {
+        return axios({
+            method: 'DELETE',
+            url: `${baseUrl}/cart/${cartId}`
+        })
+    },
+    deleteAllCart: () => {
+        return axios({
+            method: 'DELETE',
+            url: `${baseUrl}/cart/all`
+        })
+    }
 
 }
