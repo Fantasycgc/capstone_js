@@ -32,7 +32,7 @@ export const QLCartServices = {
     deleteAllCart: () => {
         return axios({
             method: 'DELETE',
-            url: `${baseUrl}/cart/all`
+            url: `${baseUrl}/cart`
         })
     }
 

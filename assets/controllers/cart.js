@@ -1,58 +1,58 @@
 import { QLCartServices } from "../services/cart.services.js";
 const getDataCart = async () => {
 
-    try {
+  try {
 
-        const result = await QLCartServices.getCartList()
-        console.log("result: ", result);
-        // console.log("result 1: ", result.data.data);
-        reloadCart(result.data.data)
-        showCart(result.data.data)
+    const result = await QLCartServices.getCartList()
+    console.log("result: ", result);
+    // console.log("result 1: ", result.data.data);
+    reloadCart(result.data.data)
+    showCart(result.data.data)
 
 
-    } catch (error) {
-        console.log("error: ", error);
+  } catch (error) {
+    console.log("error: ", error);
 
-    }
+  }
 }
 
 
 const reloadCart = (data) => {
 
 
-    let htmlContentCartCount = ''
-    let htmlContentCartAMT = ''
-    let htmlContentCartTitle = ''
-    let htmlContentCartDetail = ''
-    let htmlContentCartSubAMT = ''
+  let htmlContentCartCount = ''
+  let htmlContentCartAMT = ''
+  let htmlContentCartTitle = ''
+  let htmlContentCartDetail = ''
+  let htmlContentCartSubAMT = ''
 
-    htmlContentCartCount += `
+  htmlContentCartCount += `
        <span class="cart__total-item">${data.totalRows}</span>
        `
-    document.getElementById('cartCount').innerHTML = htmlContentCartCount
-    htmlContentCartAMT += `
+  document.getElementById('cartCount').innerHTML = htmlContentCartCount
+  htmlContentCartAMT += `
              <span class="cart__my">My Cart:</span>
                           <span class="cart__total-price" >${Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(data.totalAMT)}</span>                
       `
-    document.getElementById('cartAMT').innerHTML = htmlContentCartAMT
-    htmlContentCartTitle += `
+  document.getElementById('cartAMT').innerHTML = htmlContentCartAMT
+  htmlContentCartTitle += `
           <h4>My Cart</h4>
           <span>(${data.totalRows} Item in Cart)</span>
   
   
     `
-    document.getElementById('cartTitle').innerHTML = htmlContentCartTitle
-    htmlContentCartSubAMT += `
+  document.getElementById('cartTitle').innerHTML = htmlContentCartTitle
+  htmlContentCartSubAMT += `
   
       <span class="cart__my">My Cart:</span>
                    <span class="cart__total-price" >${Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(data.totalAMT)}</span>                      
     `
-    document.getElementById('cartSubAMT').innerHTML = htmlContentCartSubAMT
+  document.getElementById('cartSubAMT').innerHTML = htmlContentCartSubAMT
 
-    data.cartDetails.forEach((item) => {
+  data.cartDetails.forEach((item) => {
 
 
-        htmlContentCartDetail += `
+    htmlContentCartDetail += `
     <div
                               class="cart__item d-flex justify-content-between align-items-center" 
                             >
@@ -80,16 +80,16 @@ const reloadCart = (data) => {
                             </div>
       `
 
-    })
-    document.getElementById('cartDetail').innerHTML = htmlContentCartDetail
+  })
+  document.getElementById('cartDetail').innerHTML = htmlContentCartDetail
 
 }
 const showCart = (data) => {
-    let htmlContent = ''
-    let htmlContentAMT = ''
-    data.cartDetails.forEach((item) => {
+  let htmlContent = ''
+  let htmlContentAMT = ''
+  data.cartDetails.forEach((item) => {
 
-        htmlContent += `
+    htmlContent += `
        <tr>
                         <td class="product-thumbnail">
                           <a href="#"
@@ -121,32 +121,41 @@ const showCart = (data) => {
                       </tr>
                      
         `
-    })
-    htmlContentAMT = `<li>Total <span>${Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(data.totalAMT)}</span></li>`
-    document.getElementById('cartDetailList').innerHTML = htmlContent
-    document.getElementById('totalCartAMT').innerHTML = htmlContentAMT
+  })
+  htmlContentAMT = `<li>Total <span>${Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(data.totalAMT)}</span></li>`
+  document.getElementById('cartDetailList').innerHTML = htmlContent
+  document.getElementById('totalCartAMT').innerHTML = htmlContentAMT
 }
 
 window.deleteCart = async (product_id) => {
-    try {
-        await QLCartServices.deleteCart(product_id)
-        getDataCart()
-    } catch (error) {
-        console.log("error: ", error);
+  try {
+    await QLCartServices.deleteCart(product_id)
+    getDataCart()
+  } catch (error) {
+    console.log("error: ", error);
 
-    }
+  }
 }
 window.deleteAllCart = async () => {
-    try {
-        await QLCartServices.deleteCart()
-        getDataCart()
-    } catch (error) {
-        console.log("error: ", error);
+  try {
+    await QLCartServices.deleteCart()
+    getDataCart()
+  } catch (error) {
+    console.log("error: ", error);
 
-    }
+  }
+}
+document.getElementById('delete_all').onclick = async () => {
+  try {
+    await QLCartServices.deleteAllCart();
+    getDataCart();
+  } catch (error) {
+    console.log("error: ", error);
+
+  }
 }
 const formLoad = () => {
-    getDataCart()
-    // showCart()
+  getDataCart()
+  // showCart()
 }
 formLoad()
