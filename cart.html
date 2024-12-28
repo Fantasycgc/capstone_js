@@ -430,6 +430,8 @@
                           class="t-y-btn t-y-btn-border"
                           id="delete_all"
                           type="button"
+                          data-bs-toggle="modal"
+                          data-bs-target="#confirmModal"
                         >
                           Delete All
                         </button>
@@ -462,6 +464,71 @@
           </div>
         </div>
       </section>
+      <!-- Modal -->
+      <div
+        class="modal fade"
+        id="confirmModal"
+        tabindex="-1"
+        aria-labelledby="confirmModalLabel"
+        aria-hidden="true"
+      >
+        <div class="modal-dialog">
+          <div class="modal-content">
+            <div class="modal-header">
+              <h5 class="modal-title" id="confirmModalLabel">Xóa Giỏ Hàng</h5>
+              <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"
+              ></button>
+            </div>
+            <div class="modal-body">
+              Bạn có muốn xóa sản phẩm ra khỏi giỏ hàng không?
+            </div>
+            <div class="modal-footer">
+              <button
+                type="button"
+                class="btn btn-secondary"
+                data-bs-dismiss="modal"
+              >
+                Hủy Bỏ
+              </button>
+              <button
+                type="button"
+                class="btn btn-primary"
+                id="ConfirmDelete"
+                data-bs-dismiss="modal"
+              >
+                Xóa
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Toast -->
+      <div class="position-fixed top-0 end-0 p-3" style="z-index: 11">
+        <div
+          id="liveToast"
+          class="toast hide bg-success"
+          role="alert"
+          aria-live="assertive"
+          aria-atomic="true"
+          data-bs-autohide="true"
+          data-bs-animation="true"
+          data-bs-delay="1500"
+        >
+          <div class="d-flex">
+            <div class="toast-body text-white">Xóa thành công</div>
+            <button
+              type="button"
+              class="btn-close btn-close-white me-2 m-auto"
+              data-bs-dismiss="toast"
+              aria-label="Close"
+            ></button>
+          </div>
+        </div>
+      </div>
       <!-- Cart Area End-->
     </main>
 
@@ -658,6 +725,7 @@
             </div>
           </div>
         </div>
+
         <div
           class="footer__copyright footer__copyright-2 pt-30 pb-35 footer-bg-2"
         >

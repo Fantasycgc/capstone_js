@@ -87,7 +87,7 @@ const showProd = (tabID, data) => {
                         <span class="price">${Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(item.price)}</span>
                       </div>
                       <div class="product__add-btn">
-                        <button type="button" id="btnAddCart" onclick="addCart('${item.id}')">Add to Cart</button>
+                        <button type="button" class="btnAddCart" data-bs-toggle="modal" id="btnAddCart" data-name="add"  data-product='${item.id}' onclick="addCart('${item.id}')">Add to Cart</button>
                       </div>
                     </div>
                     </div>
@@ -231,7 +231,7 @@ const getDataCart = async () => {
   try {
 
     const result = await QLCartServices.getCartList()
-    console.log("result: ", result);
+
     // console.log("result 1: ", result.data.data);
     reloadCart(result.data.data)
 
@@ -311,6 +311,8 @@ const reloadCart = (data) => {
   document.getElementById('cartDetail').innerHTML = htmlContentCartDetail
 
 }
+
+
 window.addCart = async (product_id) => {
 
   try {

@@ -114,14 +114,13 @@ const showCart = (data) => {
                         </td>
                         <td class="product-remove">
                           
-                          <a href="#"><i class="fa fa-times" id="btnAddCart" onclick="deleteCart('${item.id}')"></i>
-                          
-                          </a>
+                          <a href="#"><i class="fa fa-times btnConfirm" data-bs-toggle="modal" data-product=${item.id} data-bs-target="#confirmModal"  ></i></a>
                         </td>
                       </tr>
                      
         `
   })
+
   htmlContentAMT = `<li>Total <span>${Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(data.totalAMT)}</span></li>`
   document.getElementById('cartDetailList').innerHTML = htmlContent
   document.getElementById('totalCartAMT').innerHTML = htmlContentAMT
@@ -147,13 +146,38 @@ window.deleteAllCart = async () => {
 }
 document.getElementById('delete_all').onclick = async () => {
   try {
-    await QLCartServices.deleteAllCart();
-    getDataCart();
+    const toastTrigger = document.getElementById('ConfirmDelete')
+    var myToastEl = document.getElementById('liveToast')
+    toastTrigger.addEventListener('click', async () => {
+      await QLCartServices.deleteAllCart();
+      getDataCart();
+      const toast = new bootstrap.Toast(myToastEl)
+      toast.show()
+    })
+
   } catch (error) {
     console.log("error: ", error);
 
   }
 }
+
+$(document).on("click", ".btnConfirm", function () {
+  const toastTrigger = document.getElementById('ConfirmDelete')
+  var myToastEl = document.getElementById('liveToast')
+  var productId = $(this).data('product');
+  toastTrigger.addEventListener('click', async () => {
+    try {
+      await QLCartServices.deleteCart(productId)
+      const toast = new bootstrap.Toast(myToastEl)
+      toast.show()
+      getDataCart()
+    } catch (error) {
+      console.log("error: ", error);
+
+    }
+  })
+});
+
 const formLoad = () => {
   getDataCart()
   // showCart()
