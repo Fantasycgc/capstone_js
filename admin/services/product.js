@@ -31,7 +31,7 @@ export const product = {
     });
   },
 
-  editProduct: (payload, productId) => {
+  editProduct: (productId, payload) => {
     return axios({
       method: "PUT",
       url: `${baseUrl}/products/${productId}`,
