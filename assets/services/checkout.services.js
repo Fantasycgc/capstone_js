@@ -3,7 +3,12 @@ const baseUrl = 'https://serverapi-mu.vercel.app/api'
 
 
 export const QLCheckOutServices = {
-
+    getCartList: () => {
+        return axios({
+            method: 'GET',
+            url: `${baseUrl}/cart`
+        })
+    },
     updateCart: () => {
         return axios({
             method: 'PUT',
