@@ -44,6 +44,30 @@ const renderTable = (arr) => {
   document.getElementById("tblDanhSachSP").innerHTML = htmlContent;
 };
 
+//** VALIDATE */
+const validate = (product) => {
+  const errors = []
+
+  if (!product.name || product.name.trim() === "") {
+    errors.push("Tên sản phẩm không được để trống. ")
+  }
+
+  if (!product.price || isNaN(product.price) || Number(product.price) <= 0) {
+    errors.push('Giá sản phẩm phải là một số lớn hơn 0.')
+  }
+
+  if (!product.img || product.img.trim() === "") {
+    errors.push("Ảnh sản phẩm không được để trống.")
+  }
+
+  if (!product.type || product.type.trim() === "") {
+    errors.push("Loại sản phẩm không được để trống")
+  }
+
+  return errors
+
+}
+
 // ******CHỨC NĂNG: XÓA sp********
 window.deleteProduct = async (productId) => {
   console.log("productId: ", productId);
@@ -80,6 +104,13 @@ document.getElementById("formSP").onsubmit = async (ev) => {
     const sp = layThongTinSP();
     // console.log("sp: ", sp);
 
+    // Kiểm tra dữ liệu hợp lệ
+    const errors = validate(sp);
+    if (errors.length > 0) {
+      alert(errors.join("\n"));
+      return;
+    }
+
     if (action != "edit") {
       // chức năng thêm sp
       // gọi API thêm mới sản phẩm
@@ -90,10 +121,10 @@ document.getElementById("formSP").onsubmit = async (ev) => {
       // chức năng edit sp
       // gọi api chỉnh sửa sp
       const productId = formElement.getAttribute("data-id");
-      console.log(productId, "productId");
+      // console.log(productId, "productId");
 
       // gọi edit
-      product.editProduct(productId, sp);
+      await product.editProduct(productId, sp);
     }
 
     // Gọi API THÊM MỚI SP
@@ -169,6 +200,8 @@ window.editProduct = async (productId) => {
         class = 'btn btn-success' 
       >Cập nhập</button>
       `;
+
+
   } catch (error) {
     console.log("err: ", error);
   }
