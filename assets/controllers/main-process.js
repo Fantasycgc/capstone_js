@@ -98,6 +98,7 @@ const showProd = (tabID, data) => {
   htmlContent += ` </div>`
   htmlContent += ` </div>`
   document.getElementById(tabID).innerHTML = htmlContent
+
 }
 let searchTypeFilter = []
 const getProductList = async (brand_value) => {
@@ -220,9 +221,19 @@ const getShowSale = async () => {
 
 
 document.getElementById('iphone-tab').onclick = async () => {
-  const resultType = await QLProductServices.getProductBrand('phone')
+  const resultType = await QLProductServices.getProductBrand('iphone')
 
   showProd('iphone', resultType.data.data)
+}
+document.getElementById('laptop-tab').onclick = async () => {
+  const resultType = await QLProductServices.getProductBrand('laptop')
+
+  showProd('laptop', resultType.data.data)
+}
+document.getElementById('other-tab').onclick = async () => {
+  const resultType = await QLProductServices.getProductBrand('other')
+
+  showProd('other', resultType.data.data)
 }
 
 
@@ -231,8 +242,6 @@ const getDataCart = async () => {
   try {
 
     const result = await QLCartServices.getCartList()
-
-    // console.log("result 1: ", result.data.data);
     reloadCart(result.data.data)
 
 

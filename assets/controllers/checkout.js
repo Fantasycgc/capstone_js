@@ -3,26 +3,26 @@ import { Validation } from "./validation.js";
 const validation = new Validation()
 const getDataCart = async () => {
 
-    try {
+  try {
 
-        const result = await QLCheckOutServices.getCartList()
-        console.log("result 1: ", result.data.data);
+    const result = await QLCheckOutServices.getCartList()
+    console.log("result 1: ", result.data.data);
 
-        showCart(result.data.data)
+    showCart(result.data.data)
 
 
-    } catch (error) {
-        console.log("error: ", error);
+  } catch (error) {
+    console.log("error: ", error);
 
-    }
+  }
 }
 // getDataCart()
 const showCart = (data) => {
-    let htmlContent = ''
-    let htmlContentAMT = ''
-    data.cartDetails.forEach((item) => {
+  let htmlContent = ''
+  let htmlContentAMT = ''
+  data.cartDetails.forEach((item) => {
 
-        htmlContent += `
+    htmlContent += `
               <tr class="cart_item">
                           <td class="product-name">
                             ${item.name}
@@ -35,48 +35,49 @@ const showCart = (data) => {
                         
                        
           `
-    })
+  })
 
-    htmlContentAMT = `
+  htmlContentAMT = `
                         <tr class="order-total">
                           <th>Order Total</th>
                           <td>
                             <strong><span class="amount">${Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(data.totalAMT)}</span></strong>
                           </td>
                         </tr>`
-    document.getElementById('checkOutDetail').innerHTML = htmlContent
-    document.getElementById('checkOutAMT').innerHTML = htmlContentAMT
+  document.getElementById('checkOutDetail').innerHTML = htmlContent
+  document.getElementById('checkOutAMT').innerHTML = htmlContentAMT
 }
 
 document.getElementById('checkOutForm').onsubmit = async (ev) => {
-    try {
-        ev.preventDefault()
-        // debugger
-        let isValid = true
-        const _firstName = document.getElementById('firstName').value
-        const _lastName = document.getElementById('lastName').value
-        const _address = document.getElementById('address').value
-        const _city = document.getElementById('city').value
-        const _state = document.getElementById('state').value
-        const _postCode = document.getElementById('postCode').value
-        const _email = document.getElementById('email').value
-        const _phone = document.getElementById('phone').value
+  try {
+    ev.preventDefault()
+    // debugger
+    let isValid = true
+    const _firstName = document.getElementById('firstName').value
+    const _lastName = document.getElementById('lastName').value
+    const _address = document.getElementById('address').value
+    const _city = document.getElementById('city').value
+    const _state = document.getElementById('state').value
+    const _postCode = document.getElementById('postCode').value
+    const _email = document.getElementById('email').value
+    const _phone = document.getElementById('phone').value
 
-        isValid &= validation.required(_firstName, 'Firt Name cannot blank', 'txtfirstName') && validation.isCharacter(_firstName, 'Firt Name must be character', 'txtfirstName')
-        isValid &= validation.required(_lastName, 'Last Name cannot blank', 'txtlastName') && validation.isCharacter(_lastName, 'Last Name must be character', 'txtlastName')
-        isValid &= validation.required(_address, 'Address cannot blank', 'txtaddress')
-        isValid &= validation.required(_city, 'City cannot blank', 'txtcity') && validation.isCharacter(_city, 'City must be character', 'txtcity')
-        isValid &= validation.required(_state, 'State cannot blank', 'txtstate') && validation.isCharacter(_state, 'State must be character', 'txtstate')
-        isValid &= validation.required(_postCode, 'PostCode cannot blank', 'txtpostCode') && validation.isNumber(_postCode, 'PostCode must be number', 'txtpostCode')
-        isValid &= validation.isEmail(_email, 'Email not correct', 'txtemail')
-        isValid &= validation.required(_phone, 'Phone cannot blank', 'txtphone') && validation.isNumber(_phone, 'Phone must be number', 'txtphone')
+    isValid &= validation.required(_firstName, 'Firt Name cannot blank', 'txtfirstName') && validation.isCharacter(_firstName, 'Firt Name must be character', 'txtfirstName')
+    isValid &= validation.required(_lastName, 'Last Name cannot blank', 'txtlastName') && validation.isCharacter(_lastName, 'Last Name must be character', 'txtlastName')
+    isValid &= validation.required(_address, 'Address cannot blank', 'txtaddress')
+    isValid &= validation.required(_city, 'City cannot blank', 'txtcity') && validation.isCharacter(_city, 'City must be character', 'txtcity')
+    isValid &= validation.required(_state, 'State cannot blank', 'txtstate') && validation.isCharacter(_state, 'State must be character', 'txtstate')
+    isValid &= validation.required(_postCode, 'PostCode cannot blank', 'txtpostCode') && validation.isNumber(_postCode, 'PostCode must be number', 'txtpostCode')
+    isValid &= validation.isEmail(_email, 'Email not correct', 'txtemail')
+    isValid &= validation.required(_phone, 'Phone cannot blank', 'txtphone') && validation.isNumber(_phone, 'Phone must be number', 'txtphone')
 
-        if (!isValid) return
-        // document.getElementById('btnPlaceOrder').setAttribute("data-bs-toggle", "modal")
-        // document.getElementById('btnPlaceOrder').setAttribute("data-bs-target", "#staticBackdrop")
+    if (!isValid) return
 
-        let htmlContent = ''
-        htmlContent += `
+    document.getElementById('btnPlaceOrder').setAttribute("data-bs-toggle", "modal")
+    document.getElementById('btnPlaceOrder').setAttribute("data-bs-target", "#staticBackdrop")
+
+    let htmlContent = ''
+    htmlContent += `
         <div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" style="display:none" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
@@ -88,23 +89,27 @@ document.getElementById('checkOutForm').onsubmit = async (ev) => {
         Thank for buying
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal" id="btnClose">Close</button>
         
       </div>
     </div>
   </div>
           </div>
          `
-        document.getElementById('modalCheckOut').innerHTML = htmlContent
+    document.getElementById('modalCheckOut').innerHTML = htmlContent
 
-    } catch (error) {
-        console.log("error: ", error);
-    }
+  } catch (error) {
+    console.log("error: ", error);
+  }
 
 }
-
+$(document).on("click", "#btnClose", async function () {
+  await QLCheckOutServices.updateCart();
+  getDataCart()
+  window.location.href = "index.html";
+})
 const formLoad = () => {
-    getDataCart()
-    // showCart()
+  getDataCart()
+  // showCart()
 }
 formLoad()
