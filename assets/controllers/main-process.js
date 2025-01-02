@@ -109,6 +109,7 @@ const getProductList = async (brand_value) => {
 
 
     showProd('samsung', result.data.data)
+    showSale(result.data.data)
   } catch (error) {
     console.log("error: ", error);
 
