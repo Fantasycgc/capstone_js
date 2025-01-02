@@ -222,7 +222,7 @@ const getShowSale = async () => {
 
 
 document.getElementById('iphone-tab').onclick = async () => {
-  const resultType = await QLProductServices.getProductBrand('iphone')
+  const resultType = await QLProductServices.getProductBrand('phone')
 
   showProd('iphone', resultType.data.data)
 }
