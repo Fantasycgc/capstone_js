@@ -1571,6 +1571,7 @@
   .table-content table td .cart-plus-minus {
     float: none;
     margin: 0 auto;
+    position: relative;
   }
   
   .coupon-all {
@@ -1587,7 +1588,7 @@
     }
   }
   #coupon_code {
-      height: 55px;
+      height: 45px;
       border: 2px solid #eaedff;
       padding: 0 15px;
       margin-right: 10px;
